@@ -99,8 +99,6 @@ Um den Microsoft SDL-Prozess einzuhalten müssen die 16 zwingenden Aktivitäten 
 	\caption{Security Development Lifecycle von Microsoft}
 \end{figure}
 
-\todo[inline]{Optionale Sicherheitsaktivitäten festlegen}
-
 \subsubsection{Training Requirements}
 Alle Mitglieder des Entwicklerteams müssen eine Schulung im Bereich Softwaresicherheit erhalten und sich über aktuelle Trends informieren. Die Themen umfassen \textbf{sicheres Design}, \textbf{Modellierung von Bedrohungen}, \textbf{sicheres Coding}, \textbf{Sicherheitstests} und \textbf{Datenschutz}.
 
@@ -161,3 +159,9 @@ Die eigentliche Kontrolle vor dem Release, ob die Software allen im Prozess defi
 \subsubsection{Release/Archive}
 Die Software ist aus Sicht des SDL komplett und kann nach Bestätigung des Sicherheitsberaters freigegeben werden. Für jede High Privacy Risk wird auch eine Bestätigung des Datenschutzbeauftragten benötigt.
 Alle im Prozess erzeugten Artefakte müssen archiviert werden, um eine Wartung nach dem Release zu ermöglichen.
+
+\subsubsection*{Optionale Sicherheitsaktivitäten}
+Die zuvor beschriebenen Sicherheitsaktivitäten sind nur das Minimum und können noch weiter ergänzt werden.\\
+Ein \textbf{manuelles Code-Review} wird eingesetzt, wenn besonders sensitive Daten verarbeitet oder gespeichert werden. Es macht auch Sinn, Implementationen von kryptographischen Funktionen auf ihre Korrektheit zu überprüfen.\\
+In einem \textbf{Penetration Testing} wird als Whitebox-Analyse die Sicherheit durch Spezialisten mit der Vorgehensweise von Hackern durchgeführt. Sie bieten zusätzliche Anhaltspunkte und ergänzen Code-Reviews.\\
+Als weiterer Schritt kann auch die \textbf{Analyse auf Schwächen in vergleichbaren Anwendungen} gesehen werden. Da oftmals die Informationen über Schwachstellen im Internet verfügbar sind, können diese mit der eigenen Anwendung verglichen werden, ob diese auch zutreffen.
