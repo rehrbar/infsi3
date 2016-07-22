@@ -57,9 +57,86 @@ Zwischen HTTP GET und POST gibt es einen wesentlichen Unterschied. Da der Server
 	\caption{Übliche HTTP Statuscodes,   \href{https://de.wikipedia.org/wiki/HTTP-Statuscode}{Ausführliche Liste auf Wikipedia}}
 \end{table}
 
+\subsection{Redirect after succesful login}
+Unter diesem Namen verbirgt sich ein Pattern, um die "'\textbf{Back Button Relogin Vulnerability}"' zu adressieren. Ohne Anwendung dieses Patterns besteht die Möglichkeit, dass nach mehrmaligem Klick auf Zurück die eingegebenen Logindaten erneut an den Server übertragen werden. Bei Fehlschlag des Logins kann mittels eines gewöhnlichen \textit{200 OK} um eine erneute Eingabe gebeten werden.
 
-\todo[inline]{Redirect after successful login}
-\todo[inline]{Cookies \& Javascript}
-\todo[inline]{Session Handling}
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{./img/PostRedirectGet_DoubleSubmitSolution}
+	\caption{Redirect after succesful login}
+\end{figure}
+
+Es gibt dabei mehrere Varianten für den Redirect:
+\begin{easylist}
+	& Type 1 (302 Moved Temporarily)
+	&& HTTP Response Status 302
+	&& HTTP Response Header "'Location: http://other-site/"'
+	& Type 2 (200 OK)
+	&& HTTP Response Status 200
+	&& HTTP Response Header "'Refresh: 0; URL=http://other-site/"'
+	& Type 3 (200 OK)
+	&& HTTP Response Page
+	&& Meta-Tag "'Refresh"'
+	& Type 4 (Javascript)
+	&& Client-Seitiger Code (z.B. "'document.location=\ldots"')
+\end{easylist}
+
+\subsection{HTTP Session Management}
+Serverseitig wird eine Speicherstruktur erstellt, um Session-Daten zu speichern. Der Client erhält ein Schlüssel zu dieser Struktur, auch bekannt als \textit{SessionId}.\\
+Bei jeder Anfrage des Clients an den Server muss dieser die \textit{SessionId} mitgeben, damit der Server auf die Daten der Session zugreifen kann. Dazu gibt es mehrere Varianten, wo sich die SessionId befindet (\textbf{Session Locations}):
+\begin{easylist}[itemize]
+	& URI
+	&& Sichtbar in Logs
+	&& Problematisch beim Caching
+	& Request Header
+	&& Cookie, NTLM, BasicAuth
+	& Body
+	&& Als Hidden Field
+	&& Kaum verbreitet
+\end{easylist}
+
+\subsection{Cookies}
+
+\begin{verbatim}
+Set-Cookie: PREF=ID=2744d38c32b2ec68:LD=de:TM=1094031009
+expires=Sun, 17-Jan-2038 19:14:07 GMT; path=/; domain=.google.ch
+\end{verbatim}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{./img/cookie-creation}
+	\caption{Cookie erzeugung über HTTP Request Header}
+\end{figure}
+
+\subsubsection{Cookie Attribute}
+
+\begin{easylist}[itemize]
+	& \textbf{Name=Content} (Key, value pair)
+	&& Name: Cookie Name
+	&& Content: Cookie Value
+	&& Beispiel: jsessionid=klrezbxur234kls
+	& \textbf{Domain}
+	&& Ort wohin das Cookie gesendet werden kann.
+	&& Default: Cookie wird nur an den Server gesendet, von dem es stammt.
+	& \textbf{Path}
+	&& URL-Path wohin das Cookie gesendet werden kann.
+	&& Default: Cookie wird nur an den Pfad gesendet, von dem es stammt.
+	& \textbf{Secure}
+	&& Cookie wird nur über HTTPS übermittelt.
+	&& Default: insecure
+	& \textbf{Expire}
+	&& Gültigkeit des Cookies.
+	&& Default: wird nicht persistiert, nur Browsersession.
+	& \textbf{HttpOnly}
+	&& Cookie kann nicht von JavaScript verwendet werden.
+	&& Default: nicht vorhanden, JavaScript kann mit document.cookie darauf zugreifen.
+\end{easylist}
+
+Wann ein Cookie \textbf{an den Server gesendet} wird, ist abhängig von mehreren Attributen: Domain, Path, Secure und Expire.\\
+Das HttpOnly Attribut bietet ein Schutz gegenüber XSS, wobei es dem JavaScript, welches eingeschleust wurde, verhindert wird, auf das Cookie zuzugreifen.
+
+\subsubsection{SSL Session ID}
+Mithilfe der \textit{SSL Session ID} können SSL-Session weiter verwendet werden, ohne einen erneuten Handshake durchzuführen. Ähnlich wie bei Cookies werden diese zu beginn der Anfrage an den Server übermittelt, welcher den zur ID passenden symmetrischen Schlüssel besitzt.//
+Der gesamte Payload des SSL-Pakets ist verschlüsselt, man sieht also weder die URL noch andere Inhalte des HTTP-Paket.
+
 \todo[inline]{Same Origin Policy}
 \todo[inline]{CORS}
