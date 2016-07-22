@@ -138,5 +138,44 @@ Das HttpOnly Attribut bietet ein Schutz gegenüber XSS, wobei es dem JavaScript,
 Mithilfe der \textit{SSL Session ID} können SSL-Session weiter verwendet werden, ohne einen erneuten Handshake durchzuführen. Ähnlich wie bei Cookies werden diese zu beginn der Anfrage an den Server übermittelt, welcher den zur ID passenden symmetrischen Schlüssel besitzt.//
 Der gesamte Payload des SSL-Pakets ist verschlüsselt, man sieht also weder die URL noch andere Inhalte des HTTP-Paket.
 
-\todo[inline]{Same Origin Policy}
-\todo[inline]{CORS}
+\subsection{Cross Site Scripting - XSS}
+Die Gefahr für XSS entsteht, wenn Benutzereingaben unzureichend gefiltert werden und unverändert wieder an andere Benutzer ausgeliefert werden. Dies ermöglicht z.B. die Übernahme von Sessions, HTML- oder JS-Injection, Exploit injection oder Keylogging.\\
+Es werden drei Typen von Attacken unterschieden:
+\begin{description}
+	\item[Stored] Das injizierte Skript ist permanent auf dem Zielserver gespeichert, z.B. in Form von Forumsbeiträgen.
+	\item[Reflected] Das Skript wird nicht auf dem Zielserver gespeichert, der Angreifer muss aber eine URL präparieren und diese dem Opfer unterjubeln. Dies ist z.B. über eine Suchanfrage möglich.
+	\item[DOM based] Angreifer muss eine URL präparieren, welche dann im Client direkt ausgelöst wird. Server wird dabei nicht aufgerufen, clientseitige Validierung nötig.
+\end{description}
+
+Mögliche \textbf{Gegenmassnahmen} sind:
+\begin{description}
+	\item[HTML entities] Encoding vor dem Speichern und bei der Ausgabe.
+	\item[HTTP Only Cookies] Auslesen über JS nicht möglich.
+	\item[CSP] Content Security Policy: \lstinline|script-src 'self'|
+\end{description}
+
+\subsection{Same Origin Policy}
+Die damit wird verhindert, dass Javascript (auch Flash, Java Applet, etc.) auf DOM und Cookies zugreifen kann. Nur bei der Übereinstimmung von \textbf{Protokoll, Host und Port} wird dies erlaubt.\\
+Wird nun aber in der Ursprungs-Seite das 3rd-Party-Script durch \lstinline|<script src="...">| geladen, so kann es auf das Cookie der Ursprungs-Seite zugreifen.\\
+Die Übermittlung von Daten an fremde Seiten kann dann über Bild-Tags erfolgen, da diese nicht der SOP unterliegen.\\
+Wird der Javascript-Code über die URL injiziert, so spricht man von \textbf{Reflected XSS}. Der XSS-Schutz im Browser kann dies verhindern, aber nicht bei \textbf{Stored XSS}.
+
+\subsection{Cross Origin Resource Sharing - CORS}
+Damit schützt sich nicht der eigentliche Webseitenbetreiber, sondern ein Serivce-Provider, welcher Daten für den Betreiber bereitstellt. Anfragen an den Service-Provider enthalten ein Header \lstinline|Origin: http://foo.example.com|. Die Antwort darauf den Header \lstinline|Access-Control-Allow-Origin: http://foo.example.com| (Wildcards sind auch möglich).
+
+\subsubsection{CORS Preflighted Request}
+
+Der Preflight wird ausgeführt, falls eine der folgenden Bedingungen zutrifft:
+\begin{easylist}[itemize]
+	& Verwendung einer Methode ausser GET, HEAD oder POST.
+	& POST fordert Daten mit einem anderen Content-Type als \lstinline|application/x-www-form-urlencoded, multipart/form-data oder text/xml| an
+	& POST sendet Daten mit einem XML-Payload zum Server.
+\end{easylist}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{./img/cors-preflight}
+	\caption{Vorgehen beim CORS Preflight}
+\end{figure}
+
+Standardmässig werden bei XMLHttpRequests aufrufen keine Credentials/Cookies mitgeschickt. Um dies zu forcieren, muss ein spezielles Flag (withCredentials) auf dem Request-Objekt gesetzt werden.
