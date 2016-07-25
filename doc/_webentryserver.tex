@@ -1,7 +1,25 @@
 \section{Web Entry Server}
+Ohne Massnahmen werden mehrere Verbindungen direkt zu den Applikationsserver in der DMZ gemacht. Um dies zu verhindern wird eine \textbf{Web Application Firewall}(WAF) eingesetzt. Diese kann folgende Funktionen übernehmen:
+\begin{easylist}[itemize]
+	& Network Filter Level
+	& SSL Termination
+	& Protocol Validation and Rebuilding
+	& Character Encoding and Unicode Verficatoin
+	& White/Black List Filter
+	& Cookie Protection
+	& URL Encrypting
+	& Smart Form Protection
+	& Response Content Filter
+	& Response Rewriting
+\end{easylist}
 
+\subsection{Reverse Proxy}
 \todo[inline]{Reverse Proxy}
-\todo[inline]{Pre-Authentication}
+\subsection{Pre-Authentication}
+Der Zweck einer Pre-Authentication ist dass jegliche \textbf{Backend Requests} bereits \textbf{authentifiziert} sind. Zudem werden \textbf{forensische und Log-Daten} abgelegt für spätere Verwendung.
+\subsection{Filtering}
 \todo[inline]{Filtering}
+\subsection{Unique ID}
 \todo[inline]{Unique ID}
+\subsection{Smart Filtering und URL Encryption}
 \todo[inline]{Smart Filtering und URL Encryption}
