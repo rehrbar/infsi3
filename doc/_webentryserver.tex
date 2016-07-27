@@ -1,5 +1,8 @@
 \section{Web Entry Server}
-Ohne Massnahmen werden mehrere Verbindungen direkt zu den Applikationsserver in der DMZ gemacht. Um dies zu verhindern wird eine \textbf{Web Application Firewall}(WAF) eingesetzt. Diese kann folgende Funktionen übernehmen:
+Ohne Massnahmen werden mehrere Verbindungen direkt zu den Applikationsserver in der DMZ gemacht. Um dies zu verhindern wird eine \textbf{Web Entry Server} eingesetzt, welcher ein modifizierter Apache Web Server ist.
+
+Insgesamt kann dieser Server dann auch als \textbf{Web Application Firewall}(WAF) bezeichnet werden, und folgende Funktionen übernehmen:
+
 \begin{easylist}[itemize]
 	& Network Filter Level
 	& SSL Termination
@@ -14,12 +17,37 @@ Ohne Massnahmen werden mehrere Verbindungen direkt zu den Applikationsserver in 
 \end{easylist}
 
 \subsection{Reverse Proxy}
-\todo[inline]{Reverse Proxy}
+Ein Reverse Proxy lädt Ressourcen für einen Client von mehreren Servern. Die Adressen der Zielsysteme bleiben für den Client dabei verborgen.
+Modul: \textbf{mod\_proxy}
 \subsection{Pre-Authentication}
-Der Zweck einer Pre-Authentication ist dass jegliche \textbf{Backend Requests} bereits \textbf{authentifiziert} sind. Zudem werden \textbf{forensische und Log-Daten} abgelegt für spätere Verwendung.
+Der Zweck einer Pre-Authentication ist dass jegliche \textbf{Backend Requests} bereits \textbf{authentifiziert} sind. Zudem werden \textbf{forensische  Log-Daten} abgelegt.
+
+\subsubsection{Ablauf}
+\begin{easylist}[enumerate]
+	& Anfrage des Clients auf App wird auf Login Server redirected
+	& Client erhält Cookie für Authentifizierungsprozess
+	& Bei erfolgreichem Login erhält Client ein neues Cookie
+	& Client verwendet Cookie für Zugriff auf Applikation
+\end{easylist}
+
+\subsubsection{Zweck der Cookies}
+Bei den Cookies muss jeweils ein Zeitstempel und Random Zahl enthalten sein um Replay Attacken zu verhindern.
+
+Das zweite Cookie nach erfolgreicher Authentifizierung wird benötigt um gegen \textbf{Session Fixation} zu wirken. Bei Session Fixation bringt der Attackierer einen Benutzer dazu, sich mit seiner Session ID zu authentifizieren, welcher dann Zugriff auf die Applikation erhält.
+\linebreak
+\textbf{Modul: mod\_but}
+
 \subsection{Filtering}
-\todo[inline]{Filtering}
+Der Web Entry Server übernimmt das Herausfiltern von unerwünschten Requests, z.B. SQL Injections, und Responses, z.B. Stack Traces.
+\textbf{Modul: mod\_security}
+
 \subsection{Unique ID}
-\todo[inline]{Unique ID}
-\subsection{Smart Filtering und URL Encryption}
-\todo[inline]{Smart Filtering und URL Encryption}
+Über Generierung und Weiterleitung einer Unique ID innerhalb aller Systeme lassen sich die verschiedenen Logfiles miteinander korrelieren. Man spricht dabei von der \textbf{Forensic Readiness}.
+\textbf{Module: mod\_unique\_id, mod\_headers}.
+
+\subsection{URL Encryption}
+Bei der URL-Encryption wird die URL dynamisch verschlüsselt, um gegen manipulierte URLs zu kämpfen (\textbf{Forceful Browsing}), um \textbf{Parameter zu schützen}, und \textbf{Technologie und Topologie} zu verstecken.
+
+\subsection{Content Rewriting}
+Relative URLs sind generell kein Problem. Absolute URLs, die Cookie Domain und in manchen Fällen die Werte der Cookies müssen jedoch ersetzt werden.
+\textbf{Modul: mod\_substitute}
