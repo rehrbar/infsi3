@@ -1,7 +1,7 @@
 \section{Web Entry Server}
 Ohne Massnahmen werden mehrere Verbindungen direkt zu den Applikationsserver in der DMZ gemacht. Um dies zu verhindern wird eine \textbf{Web Entry Server} eingesetzt, welcher ein modifizierter Apache Web Server ist.
 
-Insgesamt kann dieser Server dann auch als \textbf{Web Application Firewall}(WAF) bezeichnet werden, und folgende Funktionen übernehmen:
+Insgesamt kann dieser Server dann auch als \textbf{Web Application Firewall} (WAF) bezeichnet werden, und folgende Funktionen übernehmen:
 
 \begin{easylist}[itemize]
 	& Network Filter Level
@@ -14,6 +14,7 @@ Insgesamt kann dieser Server dann auch als \textbf{Web Application Firewall}(WAF
 	& Smart Form Protection
 	& Response Content Filter
 	& Response Rewriting
+	& Pre-Authentication
 \end{easylist}
 
 \subsection{Reverse Proxy}
@@ -31,23 +32,25 @@ Der Zweck einer Pre-Authentication ist dass jegliche \textbf{Backend Requests} b
 \end{easylist}
 
 \subsubsection{Zweck der Cookies}
-Bei den Cookies muss jeweils ein Zeitstempel und Random Zahl enthalten sein um Replay Attacken zu verhindern.
+Bei den Cookies muss jeweils ein Zeitstempel und eine Zufallszahl (Nonce) enthalten sein, um Replay Attacken zu verhindern.\\
 
-Das zweite Cookie nach erfolgreicher Authentifizierung wird benötigt um gegen \textbf{Session Fixation} zu wirken. Bei Session Fixation bringt der Attackierer einen Benutzer dazu, sich mit seiner Session ID zu authentifizieren, welcher dann Zugriff auf die Applikation erhält.
-\linebreak
+Das zweite Cookie nach erfolgreicher Authentifizierung wird benötigt um gegen \textbf{Session Fixation} zu wirken. Bei Session Fixation bringt der Attackierer einen Benutzer dazu, sich mit seiner Session ID zu authentifizieren, welcher dann Zugriff auf die Applikation erhält.\\
 \textbf{Modul: mod\_but}
 
 \subsection{Filtering}
-Der Web Entry Server übernimmt das Herausfiltern von unerwünschten Requests, z.B. SQL Injections, und Responses, z.B. Stack Traces.
+Der Web Entry Server übernimmt das Herausfiltern von unerwünschten Requests, z.B. SQL Injections, und Responses, z.B. Stack Traces.\\
 \textbf{Modul: mod\_security}
 
 \subsection{Unique ID}
-Über Generierung und Weiterleitung einer Unique ID innerhalb aller Systeme lassen sich die verschiedenen Logfiles miteinander korrelieren. Man spricht dabei von der \textbf{Forensic Readiness}.
+Über Generierung und Weiterleitung einer Unique ID innerhalb aller Systeme lassen sich die verschiedenen Logfiles miteinander korrelieren. Man spricht dabei von der \textbf{Forensic Readiness}.\\
 \textbf{Module: mod\_unique\_id, mod\_headers}.
 
 \subsection{URL Encryption}
 Bei der URL-Encryption wird die URL dynamisch verschlüsselt, um gegen manipulierte URLs zu kämpfen (\textbf{Forceful Browsing}), um \textbf{Parameter zu schützen}, und \textbf{Technologie und Topologie} zu verstecken.
 
 \subsection{Content Rewriting}
-Relative URLs sind generell kein Problem. Absolute URLs, die Cookie Domain und in manchen Fällen die Werte der Cookies müssen jedoch ersetzt werden.
+Relative URLs sind generell kein Problem. Absolute URLs, die Cookie Domain und in manchen Fällen die Werte der Cookies müssen jedoch ersetzt werden.\\
 \textbf{Modul: mod\_substitute}
+
+\subsection{Session Store}
+Falls Anpassungen der Cookies bei einer Anwendung nicht möglich sind (HttpOnly, Secure), kann die WAF hier einspringen. Sie weist dem Client eine ID zu, und speichert alle Session-Cookies der Anwendung selber, anstatt sie an den Client weiterzuleiten. Bei einer Anfrage reichert die WAF die Anfrage wieder mit dem passenden Session-Cookie an. Die Session-ID des Clients kann somit mit weiteren Client-Eigenschaften verglichen werden (\textbf{Sticky Sessions}). Auch ermöglicht dies die zentrale Verwaltung von Sessions, z.B. \textbf{Session Expiration}.
