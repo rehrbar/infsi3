@@ -2,7 +2,7 @@
 
 Unter \textbf{Federated Identity Management} gehören Abkommen, Standards und Technologien für Identitäten und Berechtigungen portabel über autonome Identitätsdomänen. Die \textit{Föderation} (Zusammenschluss) ermöglicht es, die Identitätsinformationen von verschiedenen Systemen transparent und sicher auszutauschen, um damit auf Sicherheitsebene zusammenarbeiten zu können.
 
-\subsection{Authentication \& Authorization Infrastructure - AAI}
+\subsection[AAI]{Authentication \& Authorization Infrastructure - AAI}
 \textbf{Ohne eine einheitliche AAI} benötigt jede zu schützende Ressource eine separate Benutzer-Administration und -Authentifikation. Probleme/Nachteile ohne AAI:
 \begin{easylist}
 	& Aufwändige und fehleranfällige Registration auf für jede einzelne Ressource
@@ -65,7 +65,14 @@ Wurde entworfen für neuere Protokolle wie \textbf{REST und JSON}, kommuniziert 
 	\caption{Beispiel eines Zugriffs auf geschützte Ressourcen mittels OAuth2}
 \end{figure}
 
-Man kann OAuth2 nicht als zuverlässige Benutzerauthentisierung zählen. Jeder Anbieter setzt eine andere Versionen davon ein oder sogar eine eigene Implementierung.
+Man kann OAuth2 nicht als zuverlässige Benutzerauthentisierung zählen. OpenID connect versucht aber diese Probleme zu lösen.\\
+
+Jeder Anbieter setzt eine andere Versionen davon ein oder sogar eine eigene Implementierung.
 
 \subsubsection{OpenID Connect}
-\todo[inline]{OpenID}
+\begin{easylist}[itemize]
+	& OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0.
+	& OpenID Connect 1.0 specifies a REST-based http API, using JSON as a data format..
+	& OpenID Connect 1.0 uses a JSON Web Token (JWT) which can be signed using JSON Web Signature (JWS) and optionally encrypted using JSON Web Encryption (JWE).
+	& OpenID Connect 1.0 is used by Google+ Sign-In.
+\end{easylist}
