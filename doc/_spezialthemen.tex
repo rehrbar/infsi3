@@ -1,0 +1,20 @@
+\section{Spezialthemen}
+
+
+\subsection{XXE File Inclusion}
+Unter dem Begriff ist eine Attacke über das \textit{XML External Entity Processing} möglich. Dabei können externe Daten, wie z.B. lokale Dateien, in das XML inkludiert werden. Bei der Verarbeitung solcher Inclusions, welche im DTD angegeben sind, fügt sie der Parser in die angegebenen Stelle ein.\\
+
+\textbf{Lösung:} Deaktivierung des Features für DTDs (External Entities) beim Parser.
+
+\begin{lstlisting}[language=XML, caption=Beispiel der XXE]
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE foo [  
+<!ELEMENT foo ANY >
+<!ENTITY xxe SYSTEM "file:///etc/passwd" >]><foo>&xxe;</foo>
+\end{lstlisting}
+
+\todo[inline]{JSON-Hijacking}
+\todo[inline]{URL-Redir}
+\todo[inline]{SSL/TLS: SSL-Cipher-Suite-Hardening, SSL-MitM}
+\todo[inline]{HTTP Request Smuggling}
+\todo[inline]{Session fixation, an sich bei Basics bereits erläutert, Ausführung möglich}
