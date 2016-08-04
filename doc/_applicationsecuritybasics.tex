@@ -211,6 +211,11 @@ Google Chrome wie auch andere Browser verwenden \textbf{HSTS-Preload-Listen}. Da
 Strict-Transport-Security: max-age=31536000
 \end{lstlisting}
 
+\subsection{X-XSS-Protection}
+Dieser Header aktiviert den XSS-Schutz im Browser, jedoch kann dieser nur Reflected XSS erkennen. Bisher wird es nur von IE, Chrome und Safari unterstützt. In diesen Browser sollte er jedoch standardmässig bereits aktiviert sein.
 
-\todo[inline]{X-XSS-Protection}
+\begin{lstlisting}[language=clean,caption=Beispiel des X-XSS-Protection Headers]
+X-XSS-Protection: 1; mode=block
+\end{lstlisting}
+
 \todo[inline]{HPKP}
