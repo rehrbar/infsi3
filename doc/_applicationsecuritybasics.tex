@@ -180,7 +180,20 @@ Der Preflight wird ausgeführt, falls eine der folgenden Bedingungen zutrifft:
 
 Standardmässig werden bei XMLHttpRequests aufrufen keine Credentials/Cookies mitgeschickt. Um dies zu forcieren, muss ein spezielles Flag (withCredentials) auf dem Request-Objekt gesetzt werden.
 
-\todo[inline]{CSP}
+\subsection{Content Security Policy - CSP}
+Dahinter versteckt sich ein Sicherheitskonzept, um XSS und diverse andere Angriffe durch einschleusen von Daten in Webseiten zu verhindern. Es wird als HTTP-Header-Field \textit{Content-Security-Policy} und bei IE 10+ \textit{X-Content-Security-Policy} unterstützt.
+
+\begin{lstlisting}[caption=Starter Policy für CSP-Header, language=clean]
+Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';
+\end{lstlisting}
+
+Das Vorgehen beim erstellen einer neuen CSP ist wie folgt:
+\begin{enumerate}
+	\item CSP-Header bei allen Requests hinzufügen mit Policy \lstinline[language=clean]|default-src 'none'|
+	\item Verstösse in der Browser-Konsole anschauen
+	\item Nötige Quellen zur Policy hinzufügen
+\end{enumerate}
+
 \todo[inline]{HSTS}
 \todo[inline]{X-XSS-Protection}
 \todo[inline]{S-Frame-Options}
