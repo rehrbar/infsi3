@@ -202,7 +202,15 @@ Als HTTP-Header-Feld eingesetzt dient es als Schutz vor \textbf{Clickjacking}-At
 X-Frame-Options: DENY
 \end{lstlisting}
 
-\todo[inline]{HSTS}
+\subsection{HTTP Strict Transport Security - HSTS}
+Ein Sicherheitsmechanismus für HTTPS-Verbindungen. Er soll vor Aushebelung der Verbindungsverschlüsselung durch eine Downgrade-Attacke als auch vor Session Hijacking schützen. Durch die Angabe des Header-Feldes wird jede weitere Verbindung bis zum erreichen des \textit{max-age} als \textbf{HTTPS erzwungen}, auch wenn die Links z.B. auf HTTP lauten. Zusätzlich wird eine Verbindung mit dem Server verhindert, sobald \textbf{Zertifikatsprobleme} auftauchen.\\
+
+Google Chrome wie auch andere Browser verwenden \textbf{HSTS-Preload-Listen}. Damit wird die Limitierung des \textit{trust on first use}-Prinzip für eine definierte Liste von Domains umgangen.
+
+\begin{lstlisting}[language=clean,caption=HSTS-Header]
+Strict-Transport-Security: max-age=31536000
+\end{lstlisting}
+
+
 \todo[inline]{X-XSS-Protection}
-\todo[inline]{S-Frame-Options}
 \todo[inline]{HPKP}
