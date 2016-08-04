@@ -100,7 +100,7 @@ Es wird in den Folien auch von der \textbf{Verwendung von IPv6 abgeraten}.\\
 
 \textbf{ICMP-Redirects deaktivieren}, um MITM-Attacken vorzubeugen.\\
 
-Eine Analyse mittels Nmap oder \href{https://cisofy.com/lynis/}{Lynis von Cisofy} helfen, Schwachstellen aufzudecken.
+Eine Analyse mittels Nmap oder \fnurl{https://cisofy.com/lynis/}{Lynis von Cisofy} helfen, Schwachstellen aufzudecken.
 
 \subsection{DB Hardening}
 Wie auf das Dateisystem trifft das Prinzip Least Privileges auch auf die Datenbank zu. Der in der Anwendung hinterlegte Benutzer darf nur auf seine Datenbanken Berechtigungen erhalten. Es können in einer Anwendung auch mehrere Benutzer hinterlegt werden, mit unterschiedlichen Berechtigungen. So z.B. ein Benutzer nur mit \textit{SELECT}-Permissions für Abfragen, \textit{INSERT} und \textit{UPDATE} für Bestellungen und ein \textit{CREATE}, \textit{DELETE} für den DB-Admin.\\
