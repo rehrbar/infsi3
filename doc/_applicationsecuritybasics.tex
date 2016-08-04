@@ -194,6 +194,14 @@ Das Vorgehen beim erstellen einer neuen CSP ist wie folgt:
 	\item Nötige Quellen zur Policy hinzufügen
 \end{enumerate}
 
+\subsection{X-Frame-Headers}
+Als HTTP-Header-Feld eingesetzt dient es als Schutz vor \textbf{Clickjacking}-Attacken. Dabei wird dem Opfer ein Frame über ein anderen Inhalt gelegt und so versucht, durch Klicken Aktionen auf dem dahinterliegenden Objekt auszuführen.\\
+\textbf{CSP hat Vorrang} vor X-Frame-Headers, weil die Unterbindung von Frames seit Version 2.0 dort auch integriert ist.
+
+\begin{lstlisting}[caption=Clickjacking mittels X-Frame-Options unterbinden, language=clean]
+X-Frame-Options: DENY
+\end{lstlisting}
+
 \todo[inline]{HSTS}
 \todo[inline]{X-XSS-Protection}
 \todo[inline]{S-Frame-Options}
