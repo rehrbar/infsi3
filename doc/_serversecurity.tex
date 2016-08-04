@@ -56,12 +56,16 @@ Unter dem Begriff ist eine Attacke über das \textit{XML External Entity Process
 \end{easylist}
 
 \subsection{Unix Process Security}
-Unter Linux ist ein weit verbreiteter Ansatz in der Prozess-Sicherheit die \textbf{Isolierung durch Chroot} (change root). Dabei wird dem Prozess ein angegebenes Verzeichnis als Root vorgegaukelt. Innerhalb des neuen Root-Verzeichnis befinden sich alle für den Service nötigen Dateien. Er kann dabei nicht auf Dateien zugreifen, welche sich ausserhalb des neuen Root-Directories besitzen. Man spricht dabei auch von einem Jail.
+Unter Linux ist ein weit verbreiteter Ansatz in der Prozess-Sicherheit die \textbf{Isolierung durch Chroot} (change root). Dabei wird dem Prozess ein angegebenes Verzeichnis als Root vorgegaukelt. Innerhalb des neuen Root-Verzeichnis befinden sich alle für den Service nötigen Dateien. Er kann dabei nicht auf Dateien zugreifen, welche sich ausserhalb des neuen Root-Directories besitzen. Man spricht dabei auch von einem Jail.\\
+
+Durch Schwachstellen im Unix-Kernel ist es aber trotzdem möglich, aus diesem Jail auszubrechen.
 
 \subsection{File Permissions}
 Die Berechtigungen auf Dateisystemebene sollten so restriktiv wie möglich sein. Als Grundsatz gilt: \textbf{Never give "'world"' write access}. Dasselbe gilt für sensitive Informationen: \textbf{Keep sensitive data secure by removing read access from "'world"'}.\\
 
-Um die Standard-Berechtigungen unter Unix zu setzen, kann mit einer Maske gearbeitet werden. Diese ist auch bekannt als "'Umask"'. Um die obigen Berechtigungen für den aktuellen Prozess zu ändern, kann z.B. \lstinline|$ umask 027|.
+Um die Standard-Berechtigungen unter Unix zu setzen, kann mit einer Maske gearbeitet werden. Diese ist auch bekannt als "'Umask"'. Um die obigen Berechtigungen für den aktuellen Prozess zu ändern, kann z.B. \lstinline|$ umask 027|.\\
+
+Durch dieses Vorgehen kann auch die Gefahr einer \textbf{Local File Inclusion} vermindert werden.
 
 \begin{figure}[H]
 	\centering
@@ -98,5 +102,6 @@ Es wird in den Folien auch von der \textbf{Verwendung von IPv6 abgeraten}.\\
 
 Eine Analyse mittels Nmap oder \href{https://cisofy.com/lynis/}{Lynis von Cisofy} helfen, Schwachstellen aufzudecken.
 
-\todo[inline]{AIDE}
-\todo[inline]{DB Hardening}
+\subsection{DB Hardening}
+Wie auf das Dateisystem trifft das Prinzip Least Privileges auch auf die Datenbank zu. Der in der Anwendung hinterlegte Benutzer darf nur auf seine Datenbanken Berechtigungen erhalten. Es können in einer Anwendung auch mehrere Benutzer hinterlegt werden, mit unterschiedlichen Berechtigungen. So z.B. ein Benutzer nur mit \textit{SELECT}-Permissions für Abfragen, \textit{INSERT} und \textit{UPDATE} für Bestellungen und ein \textit{CREATE}, \textit{DELETE} für den DB-Admin.\\
+\textbf{Keinesfalls sollte der Applikations-User \textit{GRANT}-Permissions erhalten.}
