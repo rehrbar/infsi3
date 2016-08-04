@@ -135,7 +135,7 @@ Wann ein Cookie \textbf{an den Server gesendet} wird, ist abhängig von mehreren
 Das HttpOnly Attribut bietet ein Schutz gegenüber XSS, wobei es dem JavaScript, welches eingeschleust wurde, verhindert wird, auf das Cookie zuzugreifen.
 
 \subsubsection{SSL Session ID}
-Mithilfe der \textit{SSL Session ID} können SSL-Session weiter verwendet werden, ohne einen erneuten Handshake durchzuführen. Ähnlich wie bei Cookies werden diese zu beginn der Anfrage an den Server übermittelt, welcher den zur ID passenden symmetrischen Schlüssel besitzt.//
+Mithilfe der \textit{SSL Session ID} können SSL-Session weiter verwendet werden, ohne einen erneuten Handshake durchzuführen. Ähnlich wie bei Cookies werden diese zu beginn der Anfrage an den Server übermittelt, welcher den zur ID passenden symmetrischen Schlüssel besitzt.\\
 Der gesamte Payload des SSL-Pakets ist verschlüsselt, man sieht also weder die URL noch andere Inhalte des HTTP-Paket.
 
 \subsection{Cross Site Scripting - XSS}
@@ -183,7 +183,7 @@ Standardmässig werden bei XMLHttpRequests aufrufen keine Credentials/Cookies mi
 \subsection{Content Security Policy - CSP}
 Dahinter versteckt sich ein Sicherheitskonzept, um XSS und diverse andere Angriffe durch einschleusen von Daten in Webseiten zu verhindern. Es wird als HTTP-Header-Field \textit{Content-Security-Policy} und bei IE 10+ \textit{X-Content-Security-Policy} unterstützt.
 
-\begin{lstlisting}[caption=Starter Policy für CSP-Header, language=clean]
+\begin{lstlisting}[caption=Starter Policy für CSP-Header, language={}]
 Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';
 \end{lstlisting}
 
@@ -198,7 +198,7 @@ Das Vorgehen beim erstellen einer neuen CSP ist wie folgt:
 Als HTTP-Header-Feld eingesetzt dient es als Schutz vor \textbf{Clickjacking}-Attacken. Dabei wird dem Opfer ein Frame über ein anderen Inhalt gelegt und so versucht, durch Klicken Aktionen auf dem dahinterliegenden Objekt auszuführen.\\
 \textbf{CSP hat Vorrang} vor X-Frame-Headers, weil die Unterbindung von Frames seit Version 2.0 dort auch integriert ist.
 
-\begin{lstlisting}[caption=Clickjacking mittels X-Frame-Options unterbinden, language=clean]
+\begin{lstlisting}[caption=Clickjacking mittels X-Frame-Options unterbinden, language={}]
 X-Frame-Options: DENY
 \end{lstlisting}
 
@@ -207,15 +207,22 @@ Ein Sicherheitsmechanismus für HTTPS-Verbindungen. Er soll vor Aushebelung der 
 
 Google Chrome wie auch andere Browser verwenden \textbf{HSTS-Preload-Listen}. Damit wird die Limitierung des \textit{trust on first use}-Prinzip für eine definierte Liste von Domains umgangen.
 
-\begin{lstlisting}[language=clean,caption=HSTS-Header]
+\begin{lstlisting}[language={},caption=HSTS-Header]
 Strict-Transport-Security: max-age=31536000
 \end{lstlisting}
 
 \subsection{X-XSS-Protection}
 Dieser Header aktiviert den XSS-Schutz im Browser, jedoch kann dieser nur Reflected XSS erkennen. Bisher wird es nur von IE, Chrome und Safari unterstützt. In diesen Browser sollte er jedoch standardmässig bereits aktiviert sein.
 
-\begin{lstlisting}[language=clean,caption=Beispiel des X-XSS-Protection Headers]
+\begin{lstlisting}[language={},caption=Beispiel des X-XSS-Protection Headers]
 X-XSS-Protection: 1; mode=block
 \end{lstlisting}
 
-\todo[inline]{HPKP}
+\subsection{HTTP Public Key Pinning - HPKP}
+Eine Erweiterung für HTTP, das dem Webclient mitteilt, einen spezifischen kryptographischen Schlüssel mit einem bestimmten Webserver in Verbindung zu bringen. So sollen Man-in-the-Middle-Angriffe mit gefälschten Zertifikaten vermieden werden.\\
+
+Google Chrome wie auch Firefox verwenden \textbf{Preload-Listen}. Damit wird die Limitierung des \textit{trust on first use}-Prinzip für eine definierte Liste von Domains umgangen.
+
+\begin{lstlisting}[language={},caption=Beispiel des HPKP-Headers]
+Public-Key-Pins: pin-sha256="base64=="; max-age=expireTime [; includeSubdomains][; report-uri="reportURI"]
+\end{lstlisting}
