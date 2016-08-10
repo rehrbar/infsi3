@@ -135,12 +135,52 @@ iOS hat das Common Crypto API CCCRypt. Die KeyChain kann zudem für asymmetrisch
 Das authorisieren von unerlaubten Benutzern oder Methoden ausführen von zu wenig authorisierten Benutzern. Ein klassisches Beispiel ist Forced Browsing.
 
 \subsection{M7: Client Code Quality}
-
+Implementationsprobleme wie Buffer Overflows, XSS, format string Schwachstellen etc. Muss im Code selbst gefixed werden.
 
 \subsection{M8: Code Tampering}
+Es besteht die Möglichkeit dass Code selbst verändert oder ausgetauscht wird. Dazu gibt es mehrere Möglichkeiten:
+
+\begin{description}
+	\item[Binary/Monkey Patching] Runtime Patch ohne Kopie des originalen Source Codes
+	\item[Resource Modification] \todo[inline]{Ressource Modification?!}
+	\item[Method Hooking] Bei erweiterbaren Frameworks das missbrauchen von Hooks für eigene Zwecke
+	\item[Method Swizzling] Implementation zweier Methoden austauschen
+	\item[Jailbreak/Rooting] Root Access zu System, kann aber anhand von Filestrukturen, Libraries oder OS-abhängigen Merkmalen erkannt werden
+\end{description}
 
 \subsection{M9: Reverse Engineering}
+Der Code kann eingesehen werden durch Binary Inspection, Dissasembly oder geleaktem Source Code. Gegen die ersten zwei kann ein \textbf{Code Obfuscator} verwendet werden, wie etwa ProGuard im Android SDK.
 
 \subsection{M10: Extraneous Functionality}
+Schwachstellen wie Backdoors für die Entwickler, Funktionen die nicht für den Release gedacht wurden sondern lediglich für Tests, oder Passwörter in Kommentaren.
+
 \subsection{Checkliste}
+\begin{easylist}[itemize]
+	& Data at Rest
+	&& iOS: DataProtection && Keychain API
+	&& Backup Exclusion
+	&& Caching
+	& Data in Motion
+	&& Certificate Pinning
+	&& Transport Security
+	& Data Leakage
+	&& Prevent side-channel leakage: logs, keyboard, screenshots...
+	& Input Validation
+	&& Input sanitization e.g. URL handler parameters
+	&& Format strings
+	& Code Protections
+	&& Code Obfuscation
+	&& Stack protection
+	&& Anti-Debug controls
+	&& Compiler settings
+	&& Code Injection Checks
+	& Web View Hardening
+	&& Disable local file access
+	&& Disable plugins
+	&& Disable javascript	
+	&& URL whitelisting
+	& Environment integrity
+	&& Jailbreak / Rooting detection
+	&& Version control / mandatory updates
+\end{easylist}
 
