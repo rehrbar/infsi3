@@ -122,12 +122,20 @@ Standardmässig wird bestimmten Certificate Authorities (CA) vertraut. Deren Roo
 \textbf{Lösung}: Certificate Pinning, eingeführt durch Google Chrome. Speichert das Zertifikat oder dessen Public Key in der App und überprüft dieses.
 
 \subsection{M4: Insecure Authentication}
+Das Verletzten von Privacy durch Mitschicken von Gerät-spezifischen Daten, spoofing, vohersehbare Session IDs, oder kein Session Timeout.
 
 \subsection{M5: Insufficient Cryptography}
+Schwache Ciphers und/oder Keys, ungeschützte Keys in App, oder sebstgemachte Bastel-Krypto.
+
+Android besitzt die Bouncy Castle Library. Alternativ kann dieses auch in die App eingebunden werden als Klon, welches dann Spongycastle genannt wird.
+
+iOS hat das Common Crypto API CCCRypt. Die KeyChain kann zudem für asymmetrische Kryptographie verwendet werden. Alternativ kann OpenSSL verwendet werden.
 
 \subsection{M6: Insecure Authorization}
+Das authorisieren von unerlaubten Benutzern oder Methoden ausführen von zu wenig authorisierten Benutzern. Ein klassisches Beispiel ist Forced Browsing.
 
 \subsection{M7: Client Code Quality}
+
 
 \subsection{M8: Code Tampering}
 
