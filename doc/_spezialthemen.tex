@@ -15,6 +15,15 @@ Unter dem Begriff ist eine Attacke über das \textit{XML External Entity Process
 
 \todo[inline]{JSON-Hijacking}
 \subsection{JSON-Hijacking}
+JSON-Hijacking wird dazu verwendet, sensitive Daten, die mittels JSON Format an einen authentifizierten Empfänger übermittelt werden, zu stehlen. Dazu muss das Opfer eine verseuchte Webseite laden, die mittels JavaScript einen GET Request zur verwundbaren Webseite sendet. Ausserdem wird in diesem JavaScript die Callback Funktion überschrieben, sodass neu die Antwort auf diesen GET Request (sensitive JSON Daten) auch an den Hacker übermittelt werden.
+\textbf{Abwehrmassnahmen:}
+\begin{easylist}
+	& Sensitive Daten nicht über JSON Format senden
+	& JSON nur als Antwort auf POST Request
+	& JSON in Array zurückliefern
+	& JSONP vermeiden
+\end{easylist}
+
 
 \todo[inline]{URL-Redir}
 \todo[inline]{SSL/TLS: SSL-Cipher-Suite-Hardening, SSL-MitM}
