@@ -16,7 +16,7 @@ Unter dem Begriff ist eine Attacke über das \textit{XML External Entity Process
 \subsection{JSON-Hijacking}
 JSON-Hijacking wird dazu verwendet, sensitive Daten, die mittels JSON Format an einen authentifizierten Empfänger übermittelt werden, zu stehlen. Dazu muss das Opfer eine verseuchte Webseite laden, die mittels JavaScript einen GET Request zur verwundbaren Webseite sendet. Ausserdem wird in diesem JavaScript die Callback Funktion so überschrieben, dass neu die Response auf diesen GET Request (sensitive JSON Daten) auch an den Hacker übermittelt wird. \\
 
-\textbf{Vorbeugung:}
+\textbf{Lösung:}
 \begin{easylist}
 	& Token in Request URLs verwenden, sodass diese nicht erraten werden können
 	& JSON Response mit einem Infinite Loop beginnen
@@ -28,7 +28,7 @@ URL-Redirection wird häufig im Zusammenhang mit Phishing verwendet, mit dem Zie
 
 \textbf{Beispiel:} http://www.example.com/login?redirect=http://www.examp1e.com \\
 
-\textbf{Vorbeugung:}
+\textbf{Lösung:}
 \begin{easylist}
 	& Inputvalidierung
 	&& Parameter die Redirect URLS enthalten validieren
@@ -42,7 +42,7 @@ URL-Redirection wird häufig im Zusammenhang mit Phishing verwendet, mit dem Zie
 \subsection{HTTP Request Smuggling}
 HTTP Request Smuggling Attacken können benutzt werden, um beispielsweise WAFs zu umgehen. Dabei wird die Schwachstelle ausgenutzt, dass verschiedene Sicherheitssysteme HTTP Requests unterschiedlich interpretieren. Beispielsweise kann mit CR/LF (Carriage Return / Line Feed) erreicht werden, dass innerhalb eines einzigen Requests sich zwei Requests befinden. Die WAF erkennt nur den einen, der dahinter verborgene Webserver antwortet jedoch auf beide Requests. Somit können Informationen, die eigentlich nur zwischen WAF und Webserver sichtbar sein sollten, nach "aussen" gelangen. Beispielsweise ein Cookie welches zwischen WAF und Webserver einen User authentifiziert. \\
 
-\textbf{Vorbeugung:}
+\textbf{Lösung:}
 \begin{easylist}
 	& Web Application Firewalls verwenden die nicht verwundbar gegen HTTP Request Smuggling sind
 	& Strenges Sessionmanagement verwenden, z.B Session nach jedem Request terminieren 
