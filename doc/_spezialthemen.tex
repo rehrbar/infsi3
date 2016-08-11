@@ -26,7 +26,7 @@ JSON-Hijacking wird dazu verwendet, sensitive Daten, die mittels JSON Format an 
 \subsection{URL-Redirection}
 URL-Redirection wird häufig im Zusammenhang mit Phishing verwendet, mit dem Ziel, eine Session übernehmen zu können. Dazu wird dem Opfer einen Link untergeschoben, der auf den ersten Blick vertrauenswürdig aussieht. In Wirklichkeit enthält dieser jedoch einen Redirect auf eine Landing-Page des Hackers. Klickt das Opfer auf diesen Link, so wird normal das Login-Formular der vertrauenswürdigen Webseite geladen. Gibt das Opfer nun seine Credentials ein, werden diese auf Korrektheit geprüft und es wird eine Session ausgestellt. Nach dem erfolgreichen Login, wird nun durch Redirection nicht die vertrauenswürdige Webseite geladen, sondern die Landing-Page des Hackers. Dadurch sieht der Hacker im Log seiner Page die ausgestellte Session und kann diese übernehmen. Das Opfer selbst erhält nur eine Meldung, dass die gewünschte Seite nicht erreichbar ist. \\
 
-Beispiel: http://www.example.com/login?redirect=http://www.examp1e.com \\
+\textbf{Beispiel:} http://www.example.com/login?redirect=http://www.examp1e.com \\
 
 \textbf{Vorbeugung:}
 \begin{easylist}
