@@ -13,19 +13,32 @@ Unter dem Begriff ist eine Attacke über das \textit{XML External Entity Process
 <!ENTITY xxe SYSTEM "file:///etc/passwd" >]><foo>&xxe;</foo>
 \end{lstlisting}
 
-\todo[inline]{JSON-Hijacking}
 \subsection{JSON-Hijacking}
-JSON-Hijacking wird dazu verwendet, sensitive Daten, die mittels JSON Format an einen authentifizierten Empfänger übermittelt werden, zu stehlen. Dazu muss das Opfer eine verseuchte Webseite laden, die mittels JavaScript einen GET Request zur verwundbaren Webseite sendet. Ausserdem wird in diesem JavaScript die Callback Funktion überschrieben, sodass neu die Antwort auf diesen GET Request (sensitive JSON Daten) auch an den Hacker übermittelt werden.
-\textbf{Abwehrmassnahmen:}
+JSON-Hijacking wird dazu verwendet, sensitive Daten, die mittels JSON Format an einen authentifizierten Empfänger übermittelt werden, zu stehlen. Dazu muss das Opfer eine verseuchte Webseite laden, die mittels JavaScript einen GET Request zur verwundbaren Webseite sendet. Ausserdem wird in diesem JavaScript die Callback Funktion so überschrieben, dass neu die Response auf diesen GET Request (sensitive JSON Daten) auch an den Hacker übermittelt wird. \\
+
+\textbf{Vorbeugung:}
 \begin{easylist}
-	& Sensitive Daten nicht über JSON Format senden
-	& JSON nur als Antwort auf POST Request
-	& JSON in Array zurückliefern
+	& Token in Request URLs verwenden, sodass diese nicht erraten werden können
+	& JSON Response mit einem Infinite Loop beginnen
 	& JSONP vermeiden
-\end{easylist}
+\end{easylist} 
 
+\subsection{URL-Redirection}
+URL-Redirection wird häufig im Zusammenhang mit Phishing verwendet, mit dem Ziel, eine Session übernehmen zu können. Dazu wird dem Opfer einen Link untergeschoben, der auf den ersten Blick vertrauenswürdig aussieht. In Wirklichkeit enthält dieser jedoch einen Redirect auf eine Landing-Page des Hackers. Klickt das Opfer auf diesen Link, so wird normal das Login-Formular der vertrauenswürdigen Webseite geladen. Gibt das Opfer nun seine Credentials ein, werden diese auf Korrektheit geprüft und es wird eine Session ausgestellt. Nach dem erfolgreichen Login, wird nun durch Redirection nicht die vertrauenswürdige Webseite geladen, sondern die Landing-Page des Hackers. Dadurch sieht der Hacker im Log seiner Page die ausgestellte Session und kann diese übernehmen. Das Opfer selbst erhält nur eine Meldung, dass die gewünschte Seite nicht erreichbar ist. \\
 
-\todo[inline]{URL-Redir}
+Beispiel: http://www.example.com/login?redirect=http://www.examp1e.com \\
+
+\textbf{Vorbeugung:}
+\begin{easylist}
+	& Inputvalidierung
+	&& Parameter die Redirect URLS enthalten validieren
+	&& Prüfen ob URL wirklich zur Seite gehört
+	& Lookup Tables
+	&& Erstellen von Mappings zwischen Parameter und URL
+	&& redirect=1
+	&& redirect=acc
+\end{easylist} 
+
 \todo[inline]{SSL/TLS: SSL-Cipher-Suite-Hardening, SSL-MitM}
 \todo[inline]{HTTP Request Smuggling}
 \todo[inline]{Session fixation, an sich bei Basics bereits erläutert, Ausführung möglich}
