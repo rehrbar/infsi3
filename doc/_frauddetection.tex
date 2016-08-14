@@ -1,6 +1,61 @@
 \section{Fraud Detection}
+Fraud Detection beschreibt das Vorgehen um Betrugsfälle, wie zum Beispiel beim E-Banking, möglichst schnell zu erkennen und zu melden. Dabei wird der Computer als Hilfsmittel verwendet. Bis jetzt ist die Quote der gefundenen Fälle per Fraud Detection noch sehr gering. Weit über die Hälfte der Fälle werden durch Hinweise oder ein Management Review gefunden.
 
-\todo[inline]{Panopticlick}
-\todo[inline]{E-Banking}
-\todo[inline]{Phishing}
-\todo[inline]{Man in the middle}
+\subsection{Panopticlick / Client Correlator}
+Panopticlick ist ein Softwareprojekt der Electronic Frontier Foundation (EFF). Das Konzept hinter der Software liegt darin, den Benutzer bei Besuch einer Webseite zu identifizieren, ohne dass dieser sich authentifizieren muss. Dafür wird ein Javascript auf dem Client ausgeführt, welches Informationen über den Browser sammelt. Daraus wird eine \textit{CCID} (Client Correlation ID) generiert. Diese wird auf dem Server mit bisherigen CCIDs verglichen. Somit kann man feststellen ob der Request von einem bereits bekannten Gerät kommt oder nicht. Um den Fingerprint des Browsers zu erstellen werden unter anderem folgende Daten einbezogen:
+\begin{easylist}[itemize]
+	& Verschlüsselte IP
+	& Installierte Fonts
+	& Installierte Plugins
+	& Screen Resolution
+	& Name des OS
+	& User Agent String
+\end{easylist}
+
+\subsection{E-Banking}
+E-Banking Systeme Verwenden zwei unterscheidliche Informationstypen um allfällige Frauds zu erkennen. Sollte bei der Überprüfung ein Verdacht auftauchen, kann die Transaktion gesperrt oder zum Beispiel per Telefon vom User bestätigt werden.
+
+\subsubsection{Technische Daten}
+Die Technischen Daten werden aus der Session gelesen. Die ausgelesenen Daten werden gegen alte gesammelte Daten verglichen.
+Unter Anderem werden folgende Daten verwendet:
+\begin{easylist}[itemize]
+	& User Agent
+	& Source IP
+	& Zeit
+	& Tippgeschwindigkeit
+	& Durchschnittliche eingeloggte Zeit
+\end{easylist}
+
+\subsubsection{Business Informationen}
+Bei den Business Informationen geht es um die getätigte Transaktion selber. Aufgrund dieser Daten könnte eine Fraud Transaction eventuell erkannt werden.
+folgende Punkte werden untersucht:
+\begin{easylist}[itemize]
+	& Betrag
+	& erstmalige Zahlung
+	& An welche Bank geht die Zahlung (Inland / Ausland)
+\end{easylist}
+
+\subsection{Data Mining}
+Data Mining beschreibt den Vorgang, um aus riesigen Mengen von Daten und Datensätzen, die wichtigen Informationen und zusammenhänge herauszufiltern.
+Diese Fähigkeit, wichtige Informationen aus einer grossen Masse zu filtern, ist besonders für Vorhersagen oder Machine Learning interessant.
+Durch Data Mining werden die Daten in Gruppen unterteilt.
+Drei Common Tasks sind besonders nützlich für Fraud Detection:
+\begin{easylist}[itemize]
+	& Classification: Predictive, Kunden mit einer guten Kreditwürdigkeit suchen zum Beispiel
+	& Clustering: Descriptive, Alle Kunden mit ähnlichem Einkaufsverhalten gruppieren
+	& Association Rules: Artikel finden die oft mit dem gekauften zusammen gekauft werden
+\end{easylist}
+
+\subsection{Machine Learning}
+Aufgrund der Informationen aus den Data Minings können Machine Learning Algorithmen eingesetzt werden, um zum Beispiel eine Transaktion als Verdächtig oder Harmlos einzustufen. Dies geschieht immer aufgrund bisher erhaltenen Transaktionen. Der Input (Neue Transaktion) wird also nacher als Richtwert für die nachfolgenden Transaktionen verwendet. So lernt der Automat dann von alleine. In der Vorlesung wurden verschiedene Algorithmen aufgezeigt:
+\begin{easylist}[itemize]
+	& Dempster–Shafer Theory
+	& BLAST-SSAHA Hybridization
+	& Hidden Markov Model
+	& Evolutionary-fuzzy System
+\end{easylist}
+
+\subsection{Vorteile / Nachteile}
+Die aufgezeigten Systeme können bereits automatisiert betrügerische Zahlungen erkennen und diese Melden, damit sie z.B. durch ein Mensch weiterverarbeitet werden. Je mehr Daten über den eigentlichen Benutzer zur verfügung stehen, umso besser funktioniert das ganze System. Ein automatisches System kann schneller reagieren und den Betrüger bereits stoppen, bevor ein Schaden entstanden ist.\\
+
+Diese Fraud-Detection bringt jedoch viele Nachteile mit sich. Es ist es sehr aufwändig, ein solches System einzurichten und zu Betreiben. Damit sind grosse Kosten verbunden, denn es existieren kaum standardisierte Lösungen und auch keine ausgearbeiteten Konzepte. Zudem liefert es immer noch viele False Positives. Daher wird der Mensch wohl weiterhin eine zentrale Rolle spielen.

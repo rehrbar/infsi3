@@ -1,5 +1,78 @@
 \section{Identity and Access Management}
 
+Unter \textbf{Federated Identity Management} gehören Abkommen, Standards und Technologien für Identitäten und Berechtigungen portabel über autonome Identitätsdomänen. Die \textit{Föderation} (Zusammenschluss) ermöglicht es, die Identitätsinformationen von verschiedenen Systemen transparent und sicher auszutauschen, um damit auf Sicherheitsebene zusammenarbeiten zu können.
 
-\todo[inline]{Federations}
-\todo[inline]{OAUTH}
+\subsection[AAI]{Authentication \& Authorization Infrastructure - AAI}
+\textbf{Ohne eine einheitliche AAI} benötigt jede zu schützende Ressource eine separate Benutzer-Administration und -Authentifikation. Probleme/Nachteile ohne AAI:
+\begin{easylist}
+	& Aufwändige und fehleranfällige Registration auf für jede einzelne Ressource
+	& Unzuverlässige und veraltete Daten
+	& Verschiedene Logins/Passwörter
+	& Gewisse Ressourcen werden gar nicht erst benötigt
+	& Ressorucen sind meist nur durch IP-Adressen geschützt
+\end{easylist}
+
+\textbf{Mit einer AAI} muss sich der Benutzer nur noch an einer Stelle Authentifizieren. Die Authentifizierung wird dann an den verschiedenen Ressourcen für die Autorisierung benötigt. Vorteile durch AAI:
+\begin{easylist}
+	& Keine Registration pro Ressource nötig
+	& Einheitliche Login-Prozedur
+	& Neue Ressourcen können leicht hinzugefügt werden
+	& Standortunabhängig
+	& Weniger Kennwörter zu merken
+\end{easylist}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{./img/AAI-example}
+	\caption{Exemplarische Übersicht von AAI (Source: switch.ch/aai)}
+\end{figure}
+
+\subsubsection{Shibboleth}
+Eines der weit verbreiteten AAI, welches die Authentifizierung von Classic Web-Services über die Protokolle \textbf{SOAP, XML und SAML} übernimmt unter Verwendung von \textbf{http}.\\
+Basiert auf \textbf{SAML-Assertions} (Security Assertion Markup Language) ausgestellt von vertrauten Home-Organisationen (\textbf{Identity Providers}), welche von Ressourcen (\textbf{Service Providers}) aus dem Verbund akzeptiert werden.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/shibboleth-login}
+	\caption{Vollständige Loginprozedur mit Shibboleth (Source: switch.ch/aai)}
+\end{figure}
+
+Ein \textbf{Beispiel für AAI} mittels Shibboleth ist das System von SWITCH für Universitäten, mit dem man sich z.B. bei Unterrichtsplattformen oder Online-Shops mit dem Login der Uni-/Fachhochschule anmelden kann.\\
+Dieses System übermittelt zudem \textbf{zusätzliche Attribute} zum authentifizierten Benutzer, wie etwa seine Mail-Adresse oder SwissEduPersonUniqueID.\\
+
+Der Standard \textbf{XML Signature Syntax and Processing} erlaubt die Signierung, Integritätsprüfung und Nachrichtenauthentifizierung.\\
+Der Standard \textbf{XML Encryption Syntax and Processing} erlaubt die Verschlüsselung von Daten (sogar teile des XML-Dokumentes) innerhalb eines XML-Dokumentes.\\
+Der Standard \textbf{Secure Assertion Markup Language 2.0} kombiniert den XML Signature Syntax und XML Encryption Syntax in einem Dokument mit Authentifikation Attriuten und Autorisation. Das resultierende XML-Dokument ist eine portable Identität für Single Sign-On Web Services.\\
+Die Verwendung von SAML bringt als Vorteil mit sich, dass \textbf{bestehende Enterprise-Anwendungen} direkt integriert werden können. Das zu grunde liegende XML bringt aber dennoch etwa \textbf{90\% Overhead} mit sichs.\\
+
+Über die Architektur von \textbf{SuisseID} lässt sich so z.B. auch die \textbf{Alters-Verifikation} sicherstellen, da für die Ausstellung eine Identitätsprüfung durchgeführt wird.
+
+\subsubsection{OAuth2}
+Wurde entworfen für neuere Protokolle wie \textbf{REST und JSON}, kommuniziert über \textbf{https}. Es gibt keine eingebauten Sicherheits-Funktionen, diese wird komplett durch TLS (z.B. https) übernommen. Die Funktionsweise ist \textbf{vergleichbar mit Kerberos}.\\
+
+\begin{description}
+	\item[Resource Owner] Benutzer
+	\item[Resource Server] Die API
+	\item[Authorization Server] Autorisiert den Benutzer, oftmals auf dem selben Server wie Resource Server.
+	\item[Client] Thirt-Party application, welche auf die API zugreifen möchte.
+\end{description}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{./img/oauth2-example}
+	\caption{Beispiel eines Zugriffs auf geschützte Ressourcen mittels OAuth2}
+\end{figure}
+
+Man kann OAuth2 nicht als zuverlässige Benutzerauthentisierung zählen. OpenID connect versucht aber diese Probleme zu lösen.\\
+
+Jeder Anbieter setzt eine andere Versionen davon ein oder sogar eine eigene Implementierung.
+
+\subsubsection{OpenID Connect}
+\begin{easylist}[itemize]
+	& OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0.
+	& OpenID Connect 1.0 specifies a REST-based http API, using JSON as a data format..
+	& OpenID Connect 1.0 uses a JSON Web Token (JWT) which can be signed using JSON Web Signature (JWS) and optionally encrypted using JSON Web Encryption (JWE).
+	& OpenID Connect 1.0 is used by Google+ Sign-In.
+\end{easylist}
