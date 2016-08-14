@@ -19,21 +19,20 @@ Android unterstützt SD Karten, Sandboxing via JVMs, Code Signing, und mehrere v
 Die \textbf{App Permissions} sind bei Android im Manifest hinterlegt und können ab Android 6 individuell angenommen oder abgelehnt werden.
 
 \subsection{Windows Phone}
-Windows Phone von Microsoft unterstützt ebenfalls strict sandboxing, Address Space Layout Randomization (ASLR, zufällige Ladeposition von Programmen in Speicher als Schutz gegen Overflow), Bit Locker Verschlüsselung, Data Protection API (ähnlich wie bei iOS), aber auch Gefahren wie automatisches Wi-Fi credential sharing über Facebook, Outlook oder Skype.
+Windows Phone von Microsoft unterstützt ebenfalls strict sandboxing, Address Space Layout Randomization (ASLR, zufällige Ladeposition von Programmen in Speicher als Schutz gegen Overflow), Bit Locker Verschlüsselung, Data Protection API (ähnlich wie bei iOS), aber auch Gefahren wie automatisches Wi-Fi credential sharing über Facebook, Outlook oder Skype. (In Version 1607 wurde die umstrittene Funktion \textit{Wi-Fi Sense} wieder entfernt.)
 
 \subsection{Xamarin}
-Xamarin ermöglicht die Entwicklung von platformübergreifenden, nativen Apps. Dabei wird das .NET Framework verwendet und in C\# programmiert, welches zu IL-Code (Microsoft Intermediate Language) kompiliert wird.
+Xamarin ermöglicht die Entwicklung von platformübergreifenden, nativen Apps. Dabei wird das Mono Framework (.NET kompatibel) verwendet und in C\# programmiert, welches zu IL-Code (Microsoft Intermediate Language) kompiliert wird.
 
-Die native APIs werden zwar zu den .NET namespaces gemapped, jedoch müssen platformabhängige Security Features immer noch für jede Platform geschrieben werden.
+Die native APIs werden zwar zu den .NET namespaces gemapped, jedoch müssen platformabhängige Security Features sowie User Interfaces immer noch für jede Platform geschrieben werden.
 
 \subsection{Cordova (Phonegap)}
 Cordova wird verwendet um Mobile Apps mit HTML, JS und CSS zu entwickeln. Es bringt somit native Funktionalität, basiert aber auf Web View Komponente. Somit fallen jedoch auch alle bekannten Schwachstellen an.
 
 \section{OWASP Mobile Top 10}
-\todo[inline]{OWASP Mobile Top Ten}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{./img/OWASP_MobileTop10}
+	\includegraphics[width=0.8\textwidth]{./img/OWASP_MobileTop10}
 	\caption{OWASP Mobile Top 10, 2016}
 \end{figure}
 
@@ -42,13 +41,13 @@ Missbrauch eines Platform Features oder fehlende Sicherheitsmassnahmen, und das 
 
 \textbf{Beispiel}: Zu viele Permissions, unverschlüsseltes Ablegen von Credentials in Property-File anstelle der KeyChain (iOS). \\
 
-\textbf{Lösung}: Konsultieren von Guidelines beim Entwickeln.
+\textbf{Lösung}: Konsultieren der Platform Guidelines beim Entwickeln.
 
 \subsection{M2: Insecure Data Storage}
 Durch Ablegen von Daten in unsicherem Speicher oder unvorhergesehenem Datenleak (siehe Unterkapitel) besteht erhöhte Gefahr wenn das Gerät gestohlen wird/verloren geht oder mit Malware infiziert ist nach jailbreak/rooting.
 
 \subsubsection{System Screenshots}
-Beim Wechseln zwischen Apps wird ein Screenshot sichtbar um zu sehen was die App zuletzt dargestellt hat. \\
+Das Betriebssystem erstellt ein Screenshot der Anwendung, um diese unter den zuletzt verwendeten Anwendungen darzustellen. Manchmal aber auch in anderen Fällen.\\
 
 \textbf{Beispiel}: E-Banking Kontoinformationen können eingesehen werden über den Screenshot des Apps. \\
 
@@ -86,7 +85,7 @@ UIPasteBoard *uniqueBoard=[UIPasteboard pasteboardWithUniqueName];
 \end{lstlisting}
 
 \subsubsection{Logs}
-Crash und App logs können sensitive Daten enthalten. Im Apple System Log (ASL) bei iOS werden sogar alle Logs gecached bis zum nächsten Reboot und auch nicht sandboxed. Bei Android müssen Debug Logs bei der finalen App deaktivieren werden. \\
+Crash- und Applikationslogs können sensitive Daten enthalten. Im Apple System Log (ASL) bei iOS werden sogar alle Logs gecached bis zum nächsten Reboot und auch nicht sandboxed. Bei Android müssen Debug Logs bei der finalen App deaktivieren werden. \\
 
 \textbf{Beispiel}: Bei gescheitertem Loginversuch speichert das Log Benutzername und Passwort im Log. \\
 
@@ -100,7 +99,7 @@ Eine WebView speichert jegliche Daten wie ein konventioneller Web Browser. Dies 
 \textbf{Lösung}: Korrekte Systemspeicher verwenden.
 
 \subsubsection{Inter-Process Communication}
-Apps können URL Handlers registrieren, der Empfänger und die überlieferten Informationen werden aber nicht überprüft. Zudem entsteht ein Problem wenn mehrere Apps für ein Handler bestehen. Bei Android kann dann die aufzurufende Applikation gewählt werden, bei iOS wird die zuletzt installierte App automatisch ausgewählt.\\
+Apps können URL Handlers registrieren, wobei der Empfänger und die überlieferten Informationen nicht geprüft werden können. Zudem entsteht ein Problem wenn mehrere Apps für ein Handler bestehen. Bei Android kann dann die aufzurufende Applikation gewählt werden, bei iOS wird die zuletzt installierte App automatisch ausgewählt.\\
 
 \textbf{Beispiel}: Sensitive Daten werden bei Aufruf über einen Handler abgefangen.
 \begin{lstlisting}[language=XML, caption=Aufruf von Skype]
@@ -125,14 +124,14 @@ Standardmässig wird bestimmten Certificate Authorities (CA) vertraut. Deren Roo
 Das Verletzten von Privacy durch Mitschicken von Gerät-spezifischen Daten, spoofing, vohersehbare Session IDs, oder kein Session Timeout.
 
 \subsection{M5: Insufficient Cryptography}
-Schwache Ciphers und/oder Keys, ungeschützte Keys in App, oder sebstgemachte Bastel-Krypto.
+Schwache Ciphers und/oder Keys, ungeschützte Keys in App, oder sebstgemachte Bastel-Krypto.\\
 
-Android besitzt die Bouncy Castle Library. Alternativ kann dieses auch in die App eingebunden werden als Klon, welches dann Spongycastle genannt wird.
+Android besitzt die Bouncy Castle Library. Alternativ kann dieses auch in die App eingebunden werden als Klon, welches dann Spongycastle genannt wird.\\
 
 iOS hat das Common Crypto API CCCRypt. Die KeyChain kann zudem für asymmetrische Kryptographie verwendet werden. Alternativ kann OpenSSL verwendet werden.
 
 \subsection{M6: Insecure Authorization}
-Das authorisieren von unerlaubten Benutzern oder Methoden ausführen von zu wenig authorisierten Benutzern. Ein klassisches Beispiel ist Forced Browsing.
+Das authorisieren von unerlaubten Benutzern oder Methoden ausführen von zu wenig authorisierten Benutzern. Ein klassisches Beispiel ist \textit{Forced Browsing}.
 
 \subsection{M7: Client Code Quality}
 Implementationsprobleme wie Buffer Overflows, XSS, format string Schwachstellen etc. Muss im Code selbst gefixed werden.
@@ -141,15 +140,15 @@ Implementationsprobleme wie Buffer Overflows, XSS, format string Schwachstellen 
 Es besteht die Möglichkeit dass Code selbst verändert oder ausgetauscht wird. Dazu gibt es mehrere Möglichkeiten:
 
 \begin{description}
-	\item[Binary/Monkey Patching] Runtime Patch ohne Kopie des originalen Source Codes
-	\item[Resource Modification] \todo[inline]{Ressource Modification?!}
-	\item[Method Hooking] Bei erweiterbaren Frameworks das missbrauchen von Hooks für eigene Zwecke
-	\item[Method Swizzling] Implementation zweier Methoden austauschen
-	\item[Jailbreak/Rooting] Root Access zu System, kann aber anhand von Filestrukturen, Libraries oder OS-abhängigen Merkmalen erkannt werden
+	\item[Binary/Monkey Patching] Runtime Patch ohne Kopie des originalen Source Codes.
+	\item[Resource Modification] Manipulation von lokalen Ressource-Files, welche z.B. URLs beinhalten.
+	\item[Method Hooking] Bei erweiterbaren Frameworks das missbrauchen von Hooks für eigene Zwecke.
+	\item[Method Swizzling] Implementation zweier Methoden austauschen.
+	\item[Jailbreak/Rooting] Root Access zu System, kann aber anhand von Filestrukturen, Libraries oder OS-abhängigen Merkmalen erkannt werden.
 \end{description}
 
 \subsection{M9: Reverse Engineering}
-Der Code kann eingesehen werden durch Binary Inspection, Dissasembly oder geleaktem Source Code. Gegen die ersten zwei kann ein \textbf{Code Obfuscator} verwendet werden, wie etwa ProGuard im Android SDK.
+Der Code kann eingesehen werden durch Binary Inspection, Dissasembly oder geleaktem Source Code. Gegen die ersten zwei kann ein \textbf{Code Obfuscator} verwendet werden, wie etwa ProGuard im Android SDK. Grundsatz: Verlass dich nicht auf \textit{Security by Obscurity}.
 
 \subsection{M10: Extraneous Functionality}
 Schwachstellen wie Backdoors für die Entwickler, Funktionen die nicht für den Release gedacht wurden sondern lediglich für Tests, oder Passwörter in Kommentaren.
