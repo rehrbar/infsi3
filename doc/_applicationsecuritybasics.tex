@@ -181,7 +181,8 @@ Der Preflight wird ausgeführt, falls eine der folgenden Bedingungen zutrifft:
 Standardmässig werden bei XMLHttpRequests aufrufen keine Credentials/Cookies mitgeschickt. Um dies zu forcieren, muss ein spezielles Flag (withCredentials) auf dem Request-Objekt gesetzt werden.
 
 \subsection{Content Security Policy - CSP}
-Dahinter versteckt sich ein Sicherheitskonzept, um XSS und diverse andere Angriffe durch einschleusen von Daten in Webseiten zu verhindern. Es wird als HTTP-Header-Field \textit{Content-Security-Policy} und bei IE 10+ \textit{X-Content-Security-Policy} unterstützt.
+Dahinter versteckt sich ein Sicherheitskonzept, um XSS und diverse andere Angriffe wie Clickjacking und Code Injection, durch einschleusen von Daten in Webseiten zu verhindern. Es wird als HTTP-Header-Field \textit{Content-Security-Policy} und bei IE 10+ \textit{X-Content-Security-Policy} unterstützt.
+Dadurch kann der Server bestimmen von welchem Origin Content geladen werden darf. Trifft auf ein Element mehrere CSPs zu, wird immer die restriktivste benutzt!
 
 \begin{lstlisting}[caption=Starter Policy für CSP-Header, language={}]
 Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';
@@ -192,6 +193,16 @@ Das Vorgehen beim erstellen einer neuen CSP ist wie folgt:
 	\item CSP-Header bei allen Requests hinzufügen mit Policy \lstinline[language=clean]|default-src 'none'|
 	\item Verstösse in der Browser-Konsole anschauen
 	\item Nötige Quellen zur Policy hinzufügen
+\end{enumerate}
+
+CSP hat folgende Defaults aktiviert:
+\begin{enumerate}
+	\item Keine Inline Javascript-Snippets. Nur aus Files 
+	\item Keine JS-URLs wie javascript:http://url
+	\item Eventhandling-Attribute sind deaktiviert (zum Beispiel document.click())
+	\item Funktion eval() ist deaktiviert
+	\item Der Konstruktor von function() ist deaktiviert
+	\item URIs sind nur für Bilder erlaubt
 \end{enumerate}
 
 \subsection{X-Frame-Headers}
