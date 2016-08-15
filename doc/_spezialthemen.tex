@@ -62,8 +62,8 @@ Bei einer Session Fixation Attacke erzeugt der Hacker bei der verwundbaren Webse
 
 \subsection{SSL/TLS: SSL-Cipher-Suite-Hardening, SSL-MitM}
 
-\textbf{Apache SSL Cipher Hardening}
-Der nachteil des Apache SSL Cipher Hardening ist, dass der Benutzer eine unfreundliche error Nachricht erhält, falls dieser den Angeforderten SSL Cipher nicht unterstützt.
+\subsubsection{Apache SSL Cipher Hardening}
+Der Nachteil des Apache SSL Cipher Hardening ist, dass der Benutzer eine unfreundliche Error-Nachricht erhält, falls dieser den Angeforderten SSL Cipher nicht unterstützt.
 \begin{easylist}
 	& SSLProtocol
 	&& Definiert, welche protokolle akzeptiert werden
@@ -74,13 +74,15 @@ Der nachteil des Apache SSL Cipher Hardening ist, dass der Benutzer eine unfreun
 \end{easylist}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.38\textwidth]{./img/apache_ssl_configuration.png}
+	\includegraphics[width=0.8\textwidth]{./img/apache_ssl_configuration.png}
 	\caption{Apache SSL Configuraiton}
 \end{figure}
-\textbf{Apache SSL Cipher Forwarding}
-Der Vorteil dieser Variante ist, dass auch ältere Browsers sich mit der Applikation verbinden können, da der Apache alle Ciphers akzeptiert.
-Der Appache leitet dann die SSL Informationen zu der Applikation,  via dem mod_header weiter, welche dann den entscheid für die entsprechende SSL Cipher Suit macht.
+
+\subsubsection{Apache SSL Cipher Forwarding}
+Der Vorteil dieser Variante ist, dass auch ältere Browsers sich mit der Applikation verbinden können, da der Apache alle Ciphers akzeptiert.\\
+
+Apache leitet dann die SSL Informationen zu der Applikation,  via dem mod\_header weiter, welche dann den Entscheid für die entsprechende SSL Cipher Suit macht.
 \begin{easylist}
 	& Applikation muss die Cipher prüfen
-	& Bei änderunge oder neuen Cipher muss die Applikation neu konfiguriert werden.
+	& Bei Änderungen oder neuen Cipher muss die Applikation neu konfiguriert werden.
 \end{easylist}	
