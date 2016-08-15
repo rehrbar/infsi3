@@ -1,5 +1,64 @@
 \section{Security Testing}
 
-\todo[inline]{Notwendigkeit}
-\todo[inline]{Ablauf}
-\todo[inline]{Begriffe}
+\subsection{Notwendigkeit}
+Die Bedrohung von Informationssystemen ist allgegenwärtig und man kann jederzeit ein Ziel eines Angriffes werden. Auch aus der Sicht der Beteiligten gibt es viele verschiedene Risiken, welche als Treiber für ein Security Testing dienen.
+\begin{table}[H]
+	\begin{tabularx}{\textwidth}{l|X}
+		\textbf{Rollen} & \textbf{Risiken}\\ \hline
+		Firmeninhaber, -Teilhaber & Finanzielle Risiken, Verlust von Assets, Reputationsrisiko\\ \hline
+		Aufsicht, Regulatoren & Schädigung des Wirtschaftsplatzes, Reputationsrisiko\\ \hline
+		Verwaltung, Schulen & Druck der Aufsichtsbehörde\\ \hline
+		Entwickler, Ingenieure, Forscher & Know-How Abfluss\\ \hline
+		Sicherheitsverantwortliche & Jobverlust\\ \hline
+		Kunden, Nutzer & Persönlichkeitsschutz (Datenschutz, Finanzielle Risiken)\\ \hline
+	\end{tabularx}
+	\caption{Risiko der Beteiligten in verschiedenen Rollen}
+\end{table}
+
+Bei einer Sicherheitsprüfung muss die Bedeutung aller Ebenen (Prozess-, Applikations- und Infrastruktur-Ebene) beurteilt werden. Es muss sichergestellt werden, dass der Prüfbereich sinnvoll (in Abhängigkeit der Risikoeinschätzung) festgelegt wird.
+
+Neben den Risiken gibt es auch noch andere Motivationen zur Durchführung von Sicherheitstests:
+\begin{easylist}[itemize]
+	& Firmen interne Anforderungen
+	&& Sicherheitsprüfung im Rahmen von Projekt-Abnahmen durch externe Firmen.
+	&& Sicherheitssensitive Unternehmen verlangen Sicherheitstests für aus dem Internet erreichbare Systeme.
+	&& Nachweis von sicherheitsrelevanten Bedenken.
+	&& Nachweis von Handlungsbedarf (Budgetbeschaffung).
+	& Qualitätsnachweis
+	&& Zertifizierung
+	& Regulatorische Anforderungen
+	&& Regelmässige Überprüfung der Systeme und Prozesse durch unabhängige Prüfinstitute. Oft bei Finanzinstituten wie Banken, Versicherungen und Kreditkarten-Unternehmen.
+	& Sicherheitsrelevante Zwischenfälle
+\end{easylist}
+
+\subsection{Begriffe}
+
+\begin{description}
+	\item[Sicherheitsprüfung] Allgemeine Bezeichnung für die Beurteilung einer oder mehrerer Komponenten (Systeme oder Prozesse) bezüglich Sicherheit.
+	\item[Security Audit] Untersuchungsverfahren die dazu dienen, \textbf{Prozesse} hinsichtlich der \textbf{Erfüllung von Anforderungen} und Richtlinien (z.B. Standards) \textbf{zu bewerten}.
+	\item[Review] Beurteilung von Software oder von Komponenten.
+	\item[Penetration Test] Überprüfung der Sicherheit von Systemen und Anwendungen (Netzwerkkomponenten, Server, Softwarekomponenten) mit \textbf{Mitteln und Methoden, die ein Angreifer anwenden würde}, um unautorisiert in das System einzudringen (Penetration).
+	\item[White-Box-Test] Methode des Software-Tests, bei der die Tests \textbf{mit} Kenntnissen über die innere Funktionsweise des zu testenden Systems entwickelt werden.
+	\item[Black-Box-Test] Im Gegensatz zum \textit{White Box Test} besitzt man hier keine Kenntnis über die innere Funktionsweise, dieses muss erarbeitet werden. Das Hauptaugenmerk liegt auf den Anforderungen des Tests und nicht auf der Implementation.
+	\item[Gray-Box-Test] Dies ist eine Kombination aus Black- und White-Box-Test. Der Tester besitzt teilweise Informationen über das System und die verwendeten Algorithmen.
+	\item[Social Engineering] Dabei wird der Mensch als Schwachstelle des Informationssystems angesehen und ausgenutzt. Oftmals ist dies die einfachste Variante.
+	\item[False Positive] Der Test ergibt ein positives Resultat, obwohl keine Gefahr besteht.
+	\item[False Negative] Dies ist ein Trugschluss von nicht vorhandener Sicherheit. Dies geschieht, wenn der Test Entwarnung gibt, obwohl das System verwundbar ist.
+	\item[Plausibilisierung] Verifiziert nicht die Richtigkeit eines Ergebnisses, zeigt aber offensichtliche Unrichtigkeit auf.
+	\item[Inspektion] Die Inspektion dient der Feststellung des ordnungsgemässen Zustandes eines Gegenstandes, eines Sachverhaltes oder einer Einrichtung. Die korrekte Funktion wird dabei üblicherweise nicht verifiziert.
+	\item[Prüfung] Beurteilung einer Leistung. Der zu prüfende Bereich oder Gegenstand wird gegen einen definierten und erwarteten Zustand, Funktion verifiziert.
+\end{description}
+
+\subsection{Vorgehen bei der Sicherheitsprüfung}
+\begin{table}[H]
+	\begin{tabularx}{\textwidth}{l|X}
+		\textbf{Schritt} & \textbf{Aktionen $ \rightarrow $ Resultat}\\ \hline
+		Scoping & Erkennen von Hanldungsbedarf, Risiko-Analyse, Erteilung Prüfauftrag, Offertenstellung, Prüfplanung $ \rightarrow $ Scope\\ \hline
+		Analyse & Bestandesaufnahme, Funktionen analysieren, Dokumentstudium $ \rightarrow $ Testplan Stärken und Schwächen\\ \hline
+		Konzeptbeurteilung & Konzept beurteilen $ \rightarrow $ Stärken und Schwächen des Konzeptes\\ \hline
+		Verifikation & Detailierte Testplanung, Manuelle und automatisierte Tests durchführen, Design und Aufbau bewerten $ \rightarrow $ Mängel, Empfehlungen, Risiken\\ \hline
+		Dokumentation & Reports erstellen, Resultate mit Kunden abgleichen, Ergebnisse Präsentieren $ \rightarrow $ Formeller Bericht\\ \hline
+		Nachprüfung & Verifikation von getroffenen Massnahmen $ \rightarrow $ Aktualisierte Beurteilung\\ \hline
+	\end{tabularx}
+	\caption{Übersicht über die einzelnen Schritte}
+\end{table}
