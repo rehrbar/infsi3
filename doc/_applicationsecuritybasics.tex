@@ -222,6 +222,9 @@ Google Chrome wie auch andere Browser verwenden \textbf{HSTS-Preload-Listen}. Da
 Strict-Transport-Security: max-age=31536000
 \end{lstlisting}
 
+\textbf{Bypassing HSTS}
+HSTS ist Zeit basiert und wird für eine gewisse Zeit definiert. Um dies zu umgehen, wird die Zeit geändert, wodurch das HSTS abläuft und der Browser ohne warnung auf einen Fake Server zugreift.
+
 \subsection{X-XSS-Protection}
 Dieser Header aktiviert den XSS-Schutz im Browser, jedoch kann dieser nur Reflected XSS erkennen. Bisher wird es nur von IE, Chrome und Safari unterstützt. In diesen Browser sollte er jedoch standardmässig bereits aktiviert sein.
 
