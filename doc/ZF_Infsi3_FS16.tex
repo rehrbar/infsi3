@@ -34,6 +34,7 @@
 % Pakete für die Code-Formatierung von Programmcode
 \usepackage{todonotes}
 \usepackage{listings}
+\newcommand\fnurl[2]{\href{#1}{#2}\footnote{\url{#1}}}
 
 \renewcommand{\ttdefault}{pcr}
 \lstdefinelanguage{pseudo}{
@@ -81,7 +82,17 @@
 
 \title{InfSi3 Zusammenfassung}
 
-\author{Roman Ehrbar}
+\author{
+	Roman Ehrbar\\
+	\and
+	Oliver Nietlispach\\
+	\and
+	Samuel Jost\\
+	\and
+	Etienne Georgy\\
+	\and
+	David Stäheli
+	}
 
 \date{\today}
 
@@ -110,5 +121,8 @@
 \include{_frauddetection}
 
 \include{_securitytesting}
+
+\include{_spezialthemen}
+
 
 \end{document}
